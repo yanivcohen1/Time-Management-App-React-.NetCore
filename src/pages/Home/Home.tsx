@@ -1,6 +1,6 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
-import TodoList from './todo/TodoList';
 import { getGlobal, setGlobal } from "../../utils/storage"; // for data storage
 import { useAppContext } from "../../context/AppContext"; // for events updates
 import MyModal from '../../utils/Modal';
@@ -12,6 +12,7 @@ const Home: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [i, setI] = useState(parseInt(user?.split(" ").pop() || "0") || 0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
   type MyData = { foo: string; };
   const { data, setData } = useAppContext<MyData>();
 
@@ -86,6 +87,12 @@ const Home: React.FC = () => {
         
         <br></br><br></br>
         <button onClick={fetchData}>Fetch Data</button>
+
+        <br></br><br></br>
+        <button onClick={() => navigate('todo')} className="bg-blue-500 text-white px-4 py-2 rounded">
+          Load Todo List
+        </button>
+        
       </div>
 
       {/* Modal window - the contant of MyModal will be project in children prop */}
@@ -102,8 +109,7 @@ const Home: React.FC = () => {
           </ul>
         </MyModal>
     </div>
-
-      <TodoList />
+          <Outlet />
     </div>
   );
 };

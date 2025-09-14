@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import axios, { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import LoadingBar from 'react-top-loading-bar';
 import Home from "./pages/Home/Home";
+import TodoList from "./pages/Home/todo/TodoList";
 import Contact from "./pages/Contact";
 import About from './pages/About/About';
 import AboutMe from './pages/About/AboutMe';
@@ -16,11 +17,8 @@ import Logout from './pages/Logout';
 
 const NotFound = () => <h1>404 - Page Not Found</h1>;
 
-interface ApiResponse {
-  message: string;
-}
 const App: React.FC = () => {
-  const { isAuthenticated, role, logout } = useAuth();
+  const { isAuthenticated, role } = useAuth();
   const loadingRef = useRef<InstanceType<typeof LoadingBar>>(null!);
 
     useEffect(() => {
@@ -48,14 +46,6 @@ const App: React.FC = () => {
     };
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const { data } = await axios.get<ApiResponse>('/api/data');
-      alert(data.message);
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   return (
     <>
@@ -86,7 +76,10 @@ const App: React.FC = () => {
         </nav>
   
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home />}
+          >
+            <Route path="todo" element={<TodoList />} />
+          </Route>
           <Route path="/about/:aboutId" element={<About />} >
             <Route path="about-me/:aboutMeId" element={<AboutMe />} />
           </Route>
