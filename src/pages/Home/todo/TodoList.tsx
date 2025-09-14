@@ -72,24 +72,7 @@ const TodoList: React.FC = () => {
 
   return (
     <div>
-
-      <div>
-        {/* Modal window - the contant of MyModal will be project in children prop */}
-        <div>
-          <MyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-            {/* The content wrapped inside will be strongly typed */}
-            <h2>Welcome to To-Do List Modal!</h2>
-            <p>This is some flexible content for the modal body.</p>
-            <ul>
-              <li>You can put anything here</li>
-              <li>Forms, lists, images, and more</li>
-            </ul>
-          </MyModal>
-        </div>
-      </div>
-
       <div style={styles.container}>
-        <button onClick={() => setIsModalOpen(true)}>Open Modal</button>
         <h1 style={styles.heading}>To-Do List</h1><p>User msg: {msg}</p>
         <div style={styles.inputContainer}>
           <input
