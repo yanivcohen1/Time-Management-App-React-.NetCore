@@ -105,8 +105,6 @@ const App: React.FC = () => {
       </Router>
       <div style={{ padding: 20 }}>
         <LoadingBar color="#29d" height={3} ref={loadingRef} />
-        <h1>Axios + Loading Bar Interceptor (TS)</h1>
-        <button onClick={fetchData}>Fetch Data</button>
       </div>
     </>
   );

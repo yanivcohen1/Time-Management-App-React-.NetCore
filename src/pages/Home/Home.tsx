@@ -1,4 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
+import axios from 'axios';
 import TodoList from './todo/TodoList';
 import { getGlobal, setGlobal } from "../../utils/storage"; // for data storage
 import { useAppContext } from "../../context/AppContext"; // for events updates
@@ -14,6 +15,9 @@ const Home: React.FC = () => {
   type MyData = { foo: string; };
   const { data, setData } = useAppContext<MyData>();
 
+  interface ApiResponse {
+    message: string;
+  }
   // update one time on load
   useEffect(() => {
     if (data) {
@@ -44,6 +48,15 @@ const Home: React.FC = () => {
     setI(i+1);
   }
 
+  const fetchData = async () => {
+    try {
+      const { data } = await axios.get<ApiResponse>('/api/data');
+      alert(data.message);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <div style={{ width: '100%' }}>
       <div style={{width: '400px', margin: '0 auto', backgroundColor: '#eee', padding: '16px', borderRadius: '8px'}}>
@@ -70,6 +83,9 @@ const Home: React.FC = () => {
           )}
         </div><br></br>
         <button onClick={() => setIsModalOpen(true)}>Open Modal</button>
+        
+        <br></br><br></br>
+        <button onClick={fetchData}>Fetch Data</button>
       </div>
 
       {/* Modal window - the contant of MyModal will be project in children prop */}

@@ -3,6 +3,8 @@ import { render, screen } from '@testing-library/react';
 import Home from './pages/Home/Home';
 import { AppProvider } from './context/AppContext';
 
+jest.mock('axios');
+
 test('renders learn react link', () => {
   render(
     <AppProvider>
