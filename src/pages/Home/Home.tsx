@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUser, faList } from '@fortawesome/free-solid-svg-icons';
+import { BreadCrumb } from "primereact/breadcrumb";
 
 const Home: React.FC = () => {
   const { user, setUser } = useAppContext();
@@ -20,7 +21,27 @@ const Home: React.FC = () => {
   type MyData = { foo: string; };
   const { data, setData } = useAppContext<MyData>();
   const [open, setOpen] = useState(false);
+  const items = [
+    {
+      label: "Home",
+      icon: "pi pi-home",
+      command: () => {
+        navigate('/home')
+        //console.log("Home clicked!");
+      }
+    },
+    {
+      label: "Todo",
+      command: () => {
+        navigate('todo')
+        // alert("Products clicked!");
+      }
+  }];
 
+  const home = {
+    icon: "pi pi-home",
+    url: "/"
+  };
   interface ApiResponse {
     message: string;
   }
@@ -64,6 +85,10 @@ const Home: React.FC = () => {
   };
 
   return (
+  <>
+    <div className="p-4 custom-breadcrumb">
+        <BreadCrumb model={items} home={home} />
+    </div>
     <div style={{ width: '100%' }}>
       <div style={{width: '400px', margin: '0 auto', backgroundColor: '#eee', padding: '16px', borderRadius: '8px'}}>
         <h2 style={{ textAlign: 'center' }}><FontAwesomeIcon icon={faHome} /> Home Page</h2>
@@ -93,13 +118,8 @@ const Home: React.FC = () => {
         
         <br></br><br></br>
         <button onClick={fetchData}>Fetch Data</button>
-
-        <br></br><br></br>
-        <button onClick={() => navigate('todo')} className="bg-blue-500 text-black px-2 py-1 rounded">
-          <FontAwesomeIcon icon={faList} /> Load Todo List
-        </button>
         
-      <br></br><br></br>
+        <br></br><br></br>
         <Button
           onClick={() => setOpen(!open)}
           aria-controls="example-collapse-text"
@@ -132,6 +152,7 @@ const Home: React.FC = () => {
     </div>
           <Outlet />
     </div>
+  </>
   );
 };
 
