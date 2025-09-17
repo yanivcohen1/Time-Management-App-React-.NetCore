@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from 'react-router-dom';
-import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosResponse, InternalAxiosRequestConfig, AxiosRequestHeaders } from 'axios';
+import { getData, saveData } from './utils/storage';
 import LoadingBar from 'react-top-loading-bar';
 import Home from "./pages/Home/Home";
 import TodoList from "./pages/Home/todo/TodoList";
@@ -26,6 +27,11 @@ const App: React.FC = () => {
     const reqId = axios.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
         loadingRef.current.continuousStart();
+        const token = getData<string>('jwt');
+        if (token) {
+          if (!config.headers) config.headers = {} as AxiosRequestHeaders;
+          config.headers.Authorization = `Bearer ${token}`;
+        }
         return config;
       }
     );
@@ -33,6 +39,11 @@ const App: React.FC = () => {
     const resId = axios.interceptors.response.use(
       (res: AxiosResponse) => {
         loadingRef.current.complete();
+        const authHeader = res.headers['authorization'] || (res.data && (res.data.token || res.data.jwt));
+        if (authHeader) {
+          const tokenValue = authHeader.toString().startsWith('Bearer ') ? authHeader.toString().split(' ')[1] : authHeader.toString();
+          saveData('jwt', tokenValue);
+        }
         return res;
       },
       (err) => {
