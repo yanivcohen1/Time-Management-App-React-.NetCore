@@ -138,14 +138,12 @@ const Home: React.FC = () => {
           {open! ? 'Collapse' : 'Uncollapse'} Content
         </Button>
         <Collapse in={open}>
-          <div>
-            <div className="bg-gray-100 rounded shadow" id="example-collapse-text">
+          <div className="bg-gray-100 rounded shadow" id="example-collapse-text">
               This is the content inside the div. <br></br>
-              that can be collapsed.
-            </div>
-            <Button onClick={()=>setShowToast(true)} className="mb-2">
-              Toast <strong>with</strong> Animation
-            </Button>
+              that can be collapsed.<br></br>
+              <Button onClick={()=>setShowToast(true)} className="mb-2">
+                Toast <strong>with</strong> Animation
+              </Button>
           </div>
         </Collapse>
       </div>
