@@ -47,6 +47,7 @@ const App: React.FC = () => {
         return res;
       },
       (err) => {
+        console.error('HTTP Error:', err);
         loadingRef.current.complete();
         return Promise.reject(err);
       }

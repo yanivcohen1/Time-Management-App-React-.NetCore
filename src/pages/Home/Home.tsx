@@ -9,6 +9,8 @@ import MyModal from '../../utils/Modal';
 import '../../utils/Modal.css';
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUser, faList } from '@fortawesome/free-solid-svg-icons';
 import { BreadCrumb } from "primereact/breadcrumb";
@@ -26,6 +28,7 @@ const Home: React.FC = () => {
   type MyData = { foo: string; };
   const { data, setData } = useAppContext<MyData>();
   const [open, setOpen] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const items = [
     {
       label: "Home",
@@ -135,10 +138,15 @@ const Home: React.FC = () => {
           {open! ? 'Collapse' : 'Uncollapse'} Content
         </Button>
         <Collapse in={open}>
-          <div className="bg-gray-100 rounded shadow" id="example-collapse-text">
+          <div>
+            <div className="bg-gray-100 rounded shadow" id="example-collapse-text">
               This is the content inside the div. <br></br>
               that can be collapsed.
             </div>
+            <Button onClick={()=>setShowToast(true)} className="mb-2">
+              Toast <strong>with</strong> Animation
+            </Button>
+          </div>
         </Collapse>
       </div>
 
@@ -173,6 +181,22 @@ const Home: React.FC = () => {
           </div>
         </CSSTransition>
       </TransitionGroup>
+
+      <ToastContainer
+          className="p-3"
+          position="top-center"
+          style={{ zIndex: 1 }}>
+        <Toast show={showToast} onClose={()=>setShowToast(false)} delay={3000} bg="dark" autohide>
+          <Toast.Header>
+            <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+            <strong className="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+          </Toast.Header>
+            <Toast.Body className='text-white'>
+              Hello, world! This is a toast message.
+            </Toast.Body>
+        </Toast>
+      </ToastContainer>
     </div>
   </>
   );
