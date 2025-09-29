@@ -80,13 +80,14 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
   // close side menu when clicking outside
   useEffect(() => {
     if (!menuOpen) return
-    
+
     function handleClickOutside(event: MouseEvent) {
       if (menuOpen && navRef.current && !navRef.current.contains(event.target as Node)) {
         setMenuOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
+    // In each toggle of menuOpen or on unmount, React will call removeEventListener
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [menuOpen]);
 
