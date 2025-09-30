@@ -31,6 +31,11 @@ const Home: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [position, setPosition] = useState<ToastPosition>("top-center");
+  const toastContainerStyle: React.CSSProperties = {
+    zIndex: 1,
+    position: 'sticky',
+    ...(position.includes('bottom') ? { bottom: 0 } : { top: 0 })
+  };
   const [showSelectBox, setShowSelectBox] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>('one');
   const [confirmedOption, setConfirmedOption] = useState<string>('');
@@ -155,12 +160,12 @@ const Home: React.FC = () => {
             <div className="bg-gray-100 rounded shadow" id="example-collapse-text">
                 This is the content inside the div. <br></br>
                 that can be collapsed.<br></br>
-                <Button onClick={()=>{setShowToast(true); setPosition("bottom-center")}} className="mb-2">
+                <Button onClick={()=>{setShowToast(true); setPosition("top-center")}} className="mb-2">
                   Toast
                 </Button>
             </div>
           </Collapse><br></br><br></br>
-          <Button onClick={()=>{setShowToast(true); setPosition("top-center")}} className="mb-2">
+          <Button onClick={()=>{setShowToast(true); setPosition("bottom-center")}} className="mb-2">
             Toast <strong>with</strong> Animation
           </Button>
           <br></br>
@@ -204,7 +209,7 @@ const Home: React.FC = () => {
       <ToastContainer
           className="p-3"
           position={position}
-          style={{ zIndex: 1 }}>
+          style={toastContainerStyle}>
         <Toast show={showToast} onClose={()=>setShowToast(false)} delay={3000} bg="dark" autohide>
           <Toast.Header>
             <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
