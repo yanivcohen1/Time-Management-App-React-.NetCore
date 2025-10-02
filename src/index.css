@@ -37,6 +37,7 @@ code {
 
 .side-nav {
   background-color: #333;
+  overflow-y: auto;
   /* Side nav link styles */
 }
 /* Styles for links inside side-nav */
