@@ -14,7 +14,10 @@ import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
 
 console.log("✅ AppProvider mounted");
 // mock a 1.5s delay for GET /api/data
-const mock = new MockAdapter(axios, { delayResponse: 1500 });
+const mock = new MockAdapter(axios, {
+  delayResponse: 1500,
+  onNoMatch: "passthrough",
+});
 mock.onGet('/api/data').reply(200, { message: 'Hello from in-memory API!' });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
