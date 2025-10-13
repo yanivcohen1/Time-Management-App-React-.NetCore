@@ -2,6 +2,17 @@ import React, { useState, useEffect, ChangeEvent, useMemo, useRef, createRef } f
 import { getData, saveData } from "../../../utils/storage"; // for data localstorage
 import { useAppContext } from "../../../context/AppContext"; // for events updates
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import Button from "react-bootstrap/Button";
+import Badge from "react-bootstrap/Badge";
+import Card from "react-bootstrap/Card";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import ListGroup from "react-bootstrap/ListGroup";
+import Row from "react-bootstrap/Row";
+import Stack from "react-bootstrap/Stack";
+import Alert from "react-bootstrap/Alert";
 import "../../../animation/slide-right.css";
 import "../../../animation/fade.css";
 interface Todo {
@@ -83,100 +94,102 @@ const TodoList: React.FC = () => {
   const nodeRefs = useRef<Record<string, React.RefObject<any>>>({});
 
   return (
-    <div style={styles.container}>
-      <h3 style={styles.heading}>To-Do List</h3>
-      <p>User msg: {msg}</p>
-      <div style={styles.inputContainer}>
-        <input
-          type="text"
-          value={input}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
-          placeholder="Enter a to-do item"
-          style={styles.input}
-        />
-        <button className="add" onClick={handleAdd} style={styles.addButton}>Add</button>
-      </div>
-      <input
-        type="text"
-        placeholder="Type to search..."
-        value={query}
-        onChange={e => setQuery(e.target.value)}
-        style={{ padding: '8px', width: '100%', boxSizing: 'border-box' }}
-      />
-      <TransitionGroup component="ul" style={styles.list}>
-        {filtered.map(todo => {
-          // initialize ref for this item
-          let ref = nodeRefs.current[todo.id];
-          if (!ref) {
-            ref = createRef<HTMLLIElement>();
-            nodeRefs.current[todo.id] = ref;
-          }
-          return (
-            <CSSTransition key={todo.id} nodeRef={ref} timeout={300} classNames="slide">
-              <li ref={ref} style={styles.listItem}>
-                {todo.text}
-                <button
-                  className="delete"
-                  id={todo.id}
-                  onClick={() => handleDelete(todo.id)}
-                  style={styles.deleteButton}
-                >
-                  Delete
-                </button>
-              </li>
-            </CSSTransition>
-          );
-        })}
-      </TransitionGroup>
-    </div>
-  );
-};
+    <Container fluid="md" className="py-4">
+      <Row className="justify-content-center">
+        <Col xs={12} md={10} lg={8} xl={6}>
+          <Card className="shadow-sm">
+            <Card.Header className="bg-white">
+              <div className="d-flex justify-content-between align-items-center">
+                <h3 className="mb-0">To-Do List</h3>
+                <Badge bg="primary" pill>
+                  {todos.length}
+                </Badge>
+              </div>
+            </Card.Header>
+            <Card.Body>
+              <Stack gap={3}>
+                {msg && (
+                  <Alert variant="info" className="mb-0">
+                    <strong>User message:</strong> {msg}
+                  </Alert>
+                )}
 
-const styles: { [key: string]: React.CSSProperties } = {
-  container: {
-    maxWidth: '500px',
-    margin: '40px auto',
-    padding: '20px',
-    border: '2px solid #ddd',
-    borderRadius: '10px',
-    fontFamily: 'Arial, sans-serif'
-  },
-  heading: {
-    textAlign: 'center'
-  },
-  inputContainer: {
-    display: 'flex',
-    gap: '10px',
-    marginBottom: '20px'
-  },
-  input: {
-    flex: 1,
-    padding: '8px',
-    fontSize: '16px'
-  },
-  addButton: {
-    padding: '10px 20px',
-    fontSize: '16px',
-    cursor: 'pointer'
-  },
-  list: {
-    listStyleType: 'none',
-    paddingLeft: 0
-  },
-  listItem: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '10px 0',
-    borderBottom: '1px solid #eee'
-  },
-  deleteButton: {
-    background: '#ff5c5c',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '5px 10px',
-    cursor: 'pointer'
-  }
+                <Form>
+                  <Row className="g-3 align-items-end">
+                    <Col md={8}>
+                      <Form.Group controlId="todoInput">
+                        <Form.Label>Add a task</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="Enter a to-do item"
+                          value={input}
+                          onChange={(e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={4} className="d-grid">
+                      <Button onClick={handleAdd} disabled={!input.trim()}>
+                        Add Item
+                      </Button>
+                    </Col>
+                  </Row>
+                </Form>
+
+                <Form.Group controlId="todoSearch">
+                  <Form.Label>Search your todos</Form.Label>
+                  <InputGroup>
+                    <InputGroup.Text id="search-label">Search</InputGroup.Text>
+                    <Form.Control
+                      type="search"
+                      placeholder="Type to search..."
+                      value={query}
+                      onChange={e => setQuery(e.target.value)}
+                      aria-describedby="search-label"
+                    />
+                  </InputGroup>
+                </Form.Group>
+
+                <ListGroup variant="flush" className="border rounded">
+                  <TransitionGroup component={null}>
+                    {filtered.map(todo => {
+                      let ref = nodeRefs.current[todo.id];
+                      if (!ref) {
+                        ref = createRef<HTMLLIElement>();
+                        nodeRefs.current[todo.id] = ref;
+                      }
+
+                      return (
+                        <CSSTransition key={todo.id} nodeRef={ref} timeout={300} classNames="slide">
+                          <ListGroup.Item
+                            ref={ref}
+                            className="d-flex justify-content-between align-items-center py-3"
+                          >
+                            <span className="me-3 flex-grow-1">{todo.text}</span>
+                            <Button
+                              variant="outline-danger"
+                              size="sm"
+                              onClick={() => handleDelete(todo.id)}
+                            >
+                              Delete
+                            </Button>
+                          </ListGroup.Item>
+                        </CSSTransition>
+                      );
+                    })}
+                  </TransitionGroup>
+                  {filtered.length === 0 && (
+                    <ListGroup.Item className="text-center text-muted py-4">
+                      Nothing to show yet. Try adding a new task above!
+                    </ListGroup.Item>
+                  )}
+                </ListGroup>
+              </Stack>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
+  );
 };
 
 export default TodoList;

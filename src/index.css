@@ -6,17 +6,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+/* Default layout: respect fixed sidebar width */
+.main-content {
+  margin-left: 170px;
+}
 /* Desktop layout: fix side-nav and push content */
 @media (min-width: 769px) {
-  .side-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    z-index: 1000;
-  }
   .main-content {
-    margin-left: 150px;
+    margin-left: 170px;
   }
 }
 
@@ -37,16 +34,26 @@ code {
 
 .side-nav {
   background-color: #333;
-  overflow-y: auto;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 170px;
+  z-index: 1000;
   /* Side nav link styles */
 }
 /* Styles for links inside side-nav */
 .side-nav a {
   color: #fff;
   text-decoration: none;
-  padding: 0.5rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 4px;
-  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
 }
 /* Active link background */
  .side-nav a.active {
@@ -72,7 +79,7 @@ code {
     top: 0;
     left: -100%;
     width: 200px;
-    height: 100%;
+    height: 100vh;
     background: #333;
     z-index: 1000;
     padding: 1rem;
@@ -89,5 +96,6 @@ code {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    margin-left: 0;
   }
 }

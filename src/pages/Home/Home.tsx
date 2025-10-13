@@ -8,7 +8,14 @@ import { useAppContext } from "../../context/AppContext"; // for events updates
 import MyModal from '../../utils/Modal';
 import '../../utils/Modal.css';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 import Collapse from 'react-bootstrap/Collapse';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Stack from 'react-bootstrap/Stack';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer, { ToastPosition } from 'react-bootstrap/ToastContainer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -32,11 +39,16 @@ const Home: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
   const [position, setPosition] = useState<ToastPosition>("top-center");
   const toastContainerStyle: React.CSSProperties = {
-    zIndex: 9999,
+    zIndex: 1080,
     position: 'fixed',
     left: '50%',
     transform: 'translateX(-50%)',
     ...(position.includes('bottom') ? { bottom: '1rem' } : { top: '1rem' })
+  };
+  const stickySaveWrapperStyle: React.CSSProperties = {
+    position: 'sticky',
+    top: '1rem',
+    zIndex: 1090
   };
   const [showSelectBox, setShowSelectBox] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>('one');
@@ -44,22 +56,6 @@ const Home: React.FC = () => {
   // Add sticky save message state and toast message state
   const [showStickySave, setShowStickySave] = useState(true);
   const [toastMessage, setToastMessage] = useState<string>('');
-  // Style for sticky save message banner
-  const stickyStyle: React.CSSProperties = {
-    position: 'sticky',
-    top: '0.2rem',
-    backgroundColor: '#fff',
-    padding: '8px 16px',
-    zIndex: 1000,
-    border: '1px solid #ccc',
-    boxShadow: '2px 2px rgba(0,0,0,0.3)',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    // size banner to content and center horizontally
-    width: 'fit-content',
-    margin: '0 auto',
-  };
   const items = [
     {
       label: "Home",
@@ -142,150 +138,214 @@ const Home: React.FC = () => {
   };
 
   return (
-  <>
-    <div className="p-1 custom-breadcrumb">
-        <BreadCrumb model={items} home={home} />
-    </div>
-    {showStickySave && (
-      <div style={stickyStyle}>
-        <span>Do you want to save changes? &nbsp;</span>
-        <div>
-          <button className="btn btn-primary btn-sm me-2" onClick={() => handleSave(true)}>Yes</button>
-          <button className="btn btn-secondary btn-sm" onClick={() => handleSave(false)}>No</button>
-        </div>
+    <>
+      <div className="bg-light py-2 border-bottom">
+        <Container fluid="lg" className="d-flex align-items-center">
+          <BreadCrumb
+            model={items}
+            home={home}
+            className="flex-grow-1"
+            pt={{ menu: { className: 'mb-0' } }}
+          />
+        </Container>
       </div>
-    )}
-    <div style={{ width: '100%' }}>
-      {isVisible && (
-        <div style={{width: '400px', margin: '0 auto', backgroundColor: '#eee', padding: '16px', borderRadius: '8px'}}>
-          <h2 style={{ textAlign: 'center' }}><FontAwesomeIcon icon={faHome} /> Home Page</h2>
-          <div ref={inputRef}>
-            <h6>User: {user ?? "No user logged in"}</h6>
-            <button  onClick={() => updateI()}><FontAwesomeIcon icon={faUser} /> Set AppContext User to Alice</button>
-          </div>
-    
-          <div>
-            <h6>User: {global ?? "No user logged in"}</h6>
-            <button onClick={() => setGlobalstate("global Alice")}><FontAwesomeIcon icon={faList} /> Set global User to Alice</button>
-          </div>
-    
-          <h6>Toggle Div Example</h6>
-          <div className="p-0">
-            <button onClick={toggleDiv} className="bg-blue-500 text-black px-1 py-0 rounded">
-              {isVisibleB ? 'Hide' : 'Show'} Content
-            </button>
-    
-            {isVisibleB && (
-              <div className="mt-4 p-4 bg-gray-100 rounded shadow">
-                This is the content inside the div.
-              </div>
-            )}
-          </div><br></br>
-          <button onClick={() => setIsModalOpen(true)}>Open My Modal</button>
-          
-          <br></br><br></br>
-          <button onClick={fetchData}>Fetch Data</button>
-          
-          <br></br><br></br>
-          <Button
-            onClick={() => setOpen(!open)}
-            aria-controls="example-collapse-text"
-            aria-expanded={open}
+
+      {showStickySave && (
+        <Container fluid="lg" className="my-2 d-flex justify-content-center" style={stickySaveWrapperStyle}>
+          <div
+            className="alert alert-primary mb-0 d-flex justify-content-between align-items-center gap-3 shadow-sm py-2 px-3"
+            style={{ width: 'fit-content', maxWidth: '100%', padding: '0.5rem 0.75rem' }}
           >
-            {open! ? 'Collapse' : 'Uncollapse'} Content
-          </Button>
-          <Collapse in={open}>
-            <div className="bg-gray-100 rounded shadow" id="example-collapse-text">
-                This is the content inside the div. <br></br>
-                that can be collapsed.<br></br>
-                <Button onClick={()=>{setShowToast(true); setPosition("top-center")}} className="mb-2">
-                  Toast
-                </Button>
+            <span className="fw-semibold">Do you want to save changes?</span>
+            <div className="d-flex gap-2">
+              <Button size="sm" variant="primary" onClick={() => handleSave(true)}>Yes</Button>
+              <Button size="sm" variant="secondary" onClick={() => handleSave(false)}>No</Button>
             </div>
-          </Collapse><br></br><br></br>
-          <Button onClick={()=>{setShowToast(true); setPosition("bottom-center")}} className="mb-2">
-            Toast <strong>with</strong> Animation
-          </Button>
-          {/* Button to manually show save message banner */}
-          <div style={{ margin: '0.1rem 0' }}>
-            <button className="btn btn-outline-primary" onClick={() => setShowStickySave(true)}>
-              Show Save sticky Message
-            </button>
           </div>
-          <br></br>
-          <button onClick={() => setShowSelectBox(true)}>Show Selection Box</button>
-          {confirmedOption && <span style={{ marginLeft: '8px', fontWeight: 'bold' }}>Selected: {confirmedOption}</span>}
-        </div>
+        </Container>
       )}
 
-      {/* Modal window - the contant of MyModal will be project in children prop */}
-      <div>
+      <Container
+        fluid="lg"
+        className="py-4"
+      >
+        <Row className="g-4">
+          {isVisible && (
+            <Col xs={12} md={8} lg={6} className="mx-auto">
+              <Card className="shadow-sm">
+                <Card.Header className="text-center bg-white">
+                  <h2 className="mb-0"><FontAwesomeIcon icon={faHome} className="me-2" />Home Page</h2>
+                </Card.Header>
+                <Card.Body>
+                  <Stack gap={3}>
+                    <div ref={inputRef}>
+                      <h6 className="text-muted mb-2">App Context: {user ?? 'No user logged in'}</h6>
+                      <Card className="border-0 bg-light">
+                        <Card.Body className="d-flex justify-content-between align-items-center">
+                          
+                          <Button variant="outline-primary" size="sm" onClick={updateI}>
+                            <FontAwesomeIcon icon={faUser} className="me-2" />Set AppContext User to Alice
+                          </Button>
+                        </Card.Body>
+                      </Card>
+                    </div>
+
+                    <div>
+                      <h6 className="text-muted mb-2">Global Storage: {global ?? 'No user logged in'}</h6>
+                      <Card className="border-0 bg-light">
+                        <Card.Body className="d-flex justify-content-between align-items-center">
+                          <Button variant="outline-success" size="sm" onClick={() => setGlobalstate('global Alice')}>
+                            <FontAwesomeIcon icon={faList} className="me-2" />Set global User to Alice
+                          </Button>
+                        </Card.Body>
+                      </Card>
+                    </div>
+
+                    <div>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <Button variant="info" size="sm" onClick={toggleDiv}>
+                          {isVisibleB ? 'Hide' : 'Show'} Content
+                        </Button>
+                      </div>
+                      <Collapse in={isVisibleB}>
+                        <Card className="mt-3 border-0 bg-light">
+                          <Card.Body>This is the content inside the div.</Card.Body>
+                        </Card>
+                      </Collapse>
+                    </div>
+
+                    <Stack direction="horizontal" gap={2} className="flex-wrap">
+                      <Button variant="primary" onClick={() => setIsModalOpen(true)}>Open Custom Modal</Button>
+                      <Button variant="outline-secondary" onClick={fetchData}>Fetch Data</Button>
+                      <Button
+                        variant="outline-dark"
+                        onClick={() => setOpen(!open)}
+                        aria-controls="example-collapse-text"
+                        aria-expanded={open}
+                      >
+                        {open ? 'Collapse' : 'Expand'} Content
+                      </Button>
+                    </Stack>
+
+                    <Collapse in={open}>
+                      <Card className="border-0 bg-light" id="example-collapse-text">
+                        <Card.Body>
+                          <p className="mb-2">This is the content inside the div that can be collapsed.</p>
+                          <Button onClick={() => { setShowToast(true); setPosition('top-center'); }} className="mb-2">
+                            Toast
+                          </Button>
+                        </Card.Body>
+                      </Card>
+                    </Collapse>
+
+                    <Button onClick={() => { setShowToast(true); setPosition('bottom-center'); }}>
+                      Toast <strong>with</strong> Animation
+                    </Button>
+
+                    <Stack direction="horizontal" gap={2} className="flex-wrap">
+                      <Button variant="outline-primary" onClick={() => setShowStickySave(true)}>
+                        Show Save Sticky Message
+                      </Button>
+                      <Button variant="outline-dark" onClick={() => setShowSelectBox(true)}>
+                        Show Selection Modal
+                      </Button>
+                      {confirmedOption && (
+                        <span className="fw-bold text-success">Selected: {confirmedOption}</span>
+                      )}
+                    </Stack>
+                  </Stack>
+                </Card.Body>
+              </Card>
+            </Col>
+          )}
+        </Row>
+
         <MyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          {/* The content wrapped inside will be strongly typed */}
-          <h2>Welcome to the Modal!</h2>
+          <h2 className="mb-3">Welcome to the Modal!</h2>
           <p>This is some flexible content for the modal body.</p>
-          <ul>
+          <ul className="mb-0">
             <li>You can put anything here</li>
             <li>Forms, lists, images, and more</li>
-            <h2>User: {user ?? "No user logged in"}</h2>
-            <button onClick={() => updateI()}>Set AppContext User to Alice</button>
+            <li className="mt-2">
+              <span className="me-2">User: {user ?? 'No user logged in'}</span>
+              <Button size="sm" onClick={updateI}>Set AppContext User to Alice</Button>
+            </li>
           </ul>
         </MyModal>
-      </div>
-      {/* Animate route changes */}
-      <TransitionGroup>
-        <CSSTransition
-          key={location.key}
-          nodeRef={outletRef}
-          classNames="slide"
-          timeout={300}
-          exit={false}
-          appear={true}
-          mountOnEnter
-          unmountOnExit
-        >
-          <div ref={outletRef}>
-            <Outlet />
-          </div>
-        </CSSTransition>
-      </TransitionGroup>
 
-      <ToastContainer
-          className="p-3"
-          position={position}
-          style={toastContainerStyle}>
-        <Toast show={showToast} onClose={()=>setShowToast(false)} delay={3000} bg="dark" autohide>
-          <Toast.Header>
-            <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-            <strong className="me-auto">Bootstrap</strong>
-            <small>11 mins ago</small>
-          </Toast.Header>
-            <Toast.Body className='text-white'>
-              {toastMessage}
+        <Modal show={showSelectBox} onHide={() => setShowSelectBox(false)} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Select an option</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group controlId="selectOption">
+                <Form.Label>Available options</Form.Label>
+                <Form.Select
+                  value={selectedOption}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedOption(e.target.value)}
+                >
+                  <option value="one">One</option>
+                  <option value="two">Two</option>
+                  <option value="tree">Tree</option>
+                </Form.Select>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowSelectBox(false)}>
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                setConfirmedOption(selectedOption);
+                console.log('Selected:', selectedOption);
+                setShowSelectBox(false);
+              }}
+            >
+              Accept
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <TransitionGroup>
+          <CSSTransition
+            key={location.key}
+            nodeRef={outletRef}
+            classNames="slide"
+            timeout={300}
+            exit={false}
+            appear
+            mountOnEnter
+            unmountOnExit
+          >
+            <div ref={outletRef}>
+              <Outlet />
+            </div>
+          </CSSTransition>
+        </TransitionGroup>
+
+        <ToastContainer className="p-3" position={position} style={toastContainerStyle}>
+          <Toast show={showToast} onClose={() => setShowToast(false)} delay={3000} bg="dark" autohide>
+            <Toast.Header>
+              <strong className="me-auto">Bootstrap</strong>
+              <small>Just now</small>
+            </Toast.Header>
+            <Toast.Body className="text-white d-flex justify-content-between align-items-center gap-3">
+              <span>{toastMessage}</span>
+              <Button
+                size="sm"
+                variant="outline-light"
+                onClick={() => setShowToast(false)}
+              >
+                Close
+              </Button>
             </Toast.Body>
-        </Toast>
-      </ToastContainer>
-
-      {showSelectBox && (
-        <div style={{position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', backgroundColor: '#fff', padding: '16px', boxShadow: '0 -2px 5px rgba(0,0,0,0.3)', marginTop: '16px', textAlign: 'center'}}>
-          <h6>Select an option:</h6>
-          <select value={selectedOption} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedOption(e.target.value)}>
-            <option value="one">One</option>
-            <option value="two">Two</option>
-            <option value="tree">Tree</option>
-          </select>
-          <button 
-            onClick={() => { 
-              setConfirmedOption(selectedOption);
-              console.log('Selected:', selectedOption);
-              setShowSelectBox(false);
-            }} 
-            style={{marginLeft: '8px'}}>Accept
-          </button>
-        </div>
-      )}
-    </div>
-  </>
+          </Toast>
+        </ToastContainer>
+      </Container>
+    </>
   );
 };
 
