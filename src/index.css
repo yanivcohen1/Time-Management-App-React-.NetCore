@@ -43,7 +43,7 @@ code {
   top: 0;
   left: 0;
   width: 170px;
-  z-index: 1000;
+  z-index: 1200;
   /* Side nav link styles */
 }
 /* Styles for links inside side-nav */
@@ -84,7 +84,7 @@ code {
   position: fixed;
   top: 1rem;
   left: 1rem;
-  z-index: 1101;
+  z-index: 2100;
   font-size: 1.5rem;
   cursor: pointer;
   padding: 1rem;
@@ -100,7 +100,7 @@ code {
     width: 200px;
     height: 100vh;
     background: #333;
-    z-index: 1000;
+    z-index: 2000;
     padding: 1rem;
     border-right: 1px solid #ccc;
     display: flex;
