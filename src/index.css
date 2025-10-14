@@ -46,6 +46,43 @@ code {
   z-index: 100;
   /* Side nav link styles */
 }
+.side-nav__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.25rem 0.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.side-nav__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.side-nav__theme-toggle {
+  background: transparent;
+  border: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.side-nav__theme-toggle:hover,
+.side-nav__theme-toggle:focus-visible {
+  background-color: rgba(255, 255, 255, 0.15);
+  outline: none;
+}
 /* Styles for links inside side-nav */
 .side-nav a {
   color: #fff;

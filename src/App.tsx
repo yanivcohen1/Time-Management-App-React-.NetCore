@@ -18,7 +18,7 @@ import Logout from './pages/Logout';
 import Collapse from 'react-bootstrap/Collapse';
 import Container from 'react-bootstrap/Container';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faHome, faSignInAlt, faSignOutAlt, faUser, faUsers, faEnvelope, faInfoCircle, faMoon, faSun, faIdBadge } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faHome, faSignInAlt, faSignOutAlt, faUser, faUsers, faEnvelope, faInfoCircle, faMoon, faSun, faIdBadge, faTasks } from '@fortawesome/free-solid-svg-icons';
 import { BreadCrumb } from 'primereact/breadcrumb';
 
 const NotFound = () => <h1>404 - Page Not Found</h1>;
@@ -166,7 +166,7 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
         <div className="menu-icon" onClick={() => setMenuOpen(true)}>☰</div>
       )}
   {/* Side nav */}
-  <nav
+      <nav
         ref={navRef}
         className={`side-nav${menuOpen ? ' open' : ''}`}
         style={{
@@ -180,6 +180,22 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
           overflow: 'hidden'
         }}
       >
+        <div className="side-nav__header">
+          <div className="side-nav__title">
+            <FontAwesomeIcon icon={faTasks} />
+            <span>Todo</span>
+          </div>
+          <button
+            type="button"
+            className="side-nav__theme-toggle"
+            onClick={toggleTheme}
+            aria-pressed={isDarkTheme}
+            aria-label={`Activate ${isDarkTheme ? 'light' : 'dark'} theme`}
+            title={`Switch to ${isDarkTheme ? 'Light' : 'Dark'} Mode`}
+          >
+            <FontAwesomeIcon icon={isDarkTheme ? faSun : faMoon} />
+          </button>
+        </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0', flexGrow: 1, overflowY: 'auto', paddingBottom: '1rem' }}>
           <NavLink to="/home" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => { setMenuOpen(false); setAboutOpen(false); }}>
             <FontAwesomeIcon icon={faHome} style={{ marginRight: '0.5rem' }} /> Home
@@ -248,18 +264,6 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
         style={{ flex: 1, padding: '1rem' }}
         data-bs-theme={theme}
       >
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: showHomeBreadcrumb ? '0.5rem' : '1rem' }}>
-          <button
-            type="button"
-            className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2"
-            onClick={toggleTheme}
-            aria-pressed={theme === 'dark'}
-            aria-label={`Activate ${theme === 'dark' ? 'light' : 'dark'} theme`}
-          >
-            <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} />
-            <span>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
-          </button>
-        </div>
         {showHomeBreadcrumb && (
           <div
             className={isDarkTheme ? 'bg-dark text-white py-2 border-bottom border-secondary' : 'bg-light py-2 border-bottom'}
