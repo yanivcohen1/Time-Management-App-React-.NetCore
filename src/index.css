@@ -133,7 +133,11 @@ code {
   z-index: 2100;
   font-size: 1.5rem;
   cursor: pointer;
-  padding: 1rem;
+  /* padding: 0.5rem 0.75rem; */
+  padding: 0rem .5rem;;
+  background-color: #000;
+  color: #fff;
+  border-radius: 0.25rem;
 }
 .side-nav-overlay {
   position: fixed;
