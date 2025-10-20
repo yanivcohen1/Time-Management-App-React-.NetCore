@@ -241,24 +241,21 @@ const TodoList: React.FC = () => {
                         <CSSTransition key={todo.id} nodeRef={ref} timeout={500} classNames="slide">
                           <ListGroup.Item
                             ref={ref}
-                            className={`d-flex justify-content-between align-items-center py-3 ${isDarkTheme ? 'bg-dark text-white border-secondary' : ''}`}
+                            className={`d-flex align-items-center py-3 ${isDarkTheme ? 'bg-dark text-white border-secondary' : ''}`}
                           >
-                            <span className={`me-3 flex-grow-1 ${todo.completed ? 'text-decoration-line-through text-muted' : ''}`} style={todo.completed ? {opacity: 0.6} : undefined}>{todo.text}</span>
-                            <div className="d-flex align-items-center gap-2">
-                              <Form.Check
-                                type="checkbox"
-                                checked={todo.completed}
-                                onChange={() => handleToggleComplete(todo.id)}
-                                label={<span style={{opacity: 0.6}}>Done</span>}
-                              />
-                              <Button
-                                variant="outline-danger"
-                                size="sm"
-                                onClick={() => handleDeleteRequest(todo)}
-                              >
-                                Delete
-                              </Button>
-                            </div>
+                            <Form.Check
+                              type="checkbox"
+                              checked={todo.completed}
+                              onChange={() => handleToggleComplete(todo.id)}
+                            />
+                            <span className={`ms-3 flex-grow-1 ${todo.completed ? 'text-decoration-line-through text-muted' : ''}`} style={todo.completed ? {opacity: 0.6} : undefined}>{todo.text}</span>
+                            <Button
+                              variant="outline-danger"
+                              size="sm"
+                              onClick={() => handleDeleteRequest(todo)}
+                            >
+                              Delete
+                            </Button>
                           </ListGroup.Item>
                         </CSSTransition>
                       );
