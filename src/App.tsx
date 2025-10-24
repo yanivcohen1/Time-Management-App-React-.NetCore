@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, NavLink, Navigate, useLocation,
 import axios, { AxiosResponse, InternalAxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 import { getData, saveData } from './utils/storage';
 import LoadingBar from 'react-top-loading-bar';
+import yaml from 'js-yaml';
 import Home from "./pages/Home/Home";
 import TodoList from "./pages/Home/todo/TodoList";
 import Contact from "./pages/Contact";
@@ -122,7 +123,23 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
   }, [theme]);
 
   useEffect(() => {
-    axios.defaults.baseURL = 'http://localhost:5000';
+    // Load config and set axios baseURL
+    fetch('/config.yaml')
+      .then(response => response.text())
+      .then(yamlText => {
+        const config = yaml.load(yamlText) as any;
+        if (config.backend && config.backend.url) {
+          axios.defaults.baseURL = config.backend.url;
+        } else {
+          console.warn('Backend URL not found in config.yaml, using default');
+          axios.defaults.baseURL = 'http://localhost:5000';
+        }
+      })
+      .catch(error => {
+        console.error('Failed to load config.yaml:', error);
+        axios.defaults.baseURL = 'http://localhost:5000';
+      });
+
     // start on any request
     const reqId = axios.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
