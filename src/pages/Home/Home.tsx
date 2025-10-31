@@ -22,6 +22,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUser, faList } from '@fortawesome/free-solid-svg-icons';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import CustomButton from '../../components/CustomButton';
 
 interface HomeProps {
   onToggleCookieBanner: () => void;
@@ -135,6 +136,22 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
     setStickyMsg(confirm)
   };
 
+  const renderStickySave = (position: 'top' | 'bottom') => {
+    const style = position === 'top' ? fixedTopStyle : fixedBottomStyle;
+    return (
+      <div
+        className="alert alert-primary mb-0 d-flex justify-content-between align-items-center gap-3 shadow-sm py-2 px-3"
+        style={style}
+      >
+        <span className="fw-semibold">Save changes?</span>
+        <div className="d-flex gap-2">
+          <Button size="sm" variant="primary" onClick={() => handleSave(true)}>Yes</Button>
+          <Button size="sm" variant="secondary" onClick={() => handleSave(false)}>No</Button>
+        </div>
+      </div>
+    );
+  };
+
   useEffect(() => {
     const shouldShow = !location.pathname.startsWith('/home/todo');
     setIsVisible(shouldShow);
@@ -156,30 +173,8 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
           </div>
         </Container>
       )}
-      {showStickySave && stickyPosition === 'top' && (
-        <div
-          className="alert alert-primary mb-0 d-flex justify-content-between align-items-center gap-3 shadow-sm py-2 px-3"
-          style={fixedTopStyle}
-        >
-          <span className="fw-semibold">Save changes?</span>
-          <div className="d-flex gap-2">
-            <Button size="sm" variant="primary" onClick={() => handleSave(true)}>Yes</Button>
-            <Button size="sm" variant="secondary" onClick={() => handleSave(false)}>No</Button>
-          </div>
-        </div>
-      )}
-      {showStickySave && stickyPosition === 'bottom' && (
-        <div
-          className="alert alert-primary mb-0 d-flex justify-content-between align-items-center gap-3 shadow-sm py-2 px-3"
-          style={fixedBottomStyle}
-        >
-          <span className="fw-semibold">Save changes?</span>
-          <div className="d-flex gap-2">
-            <Button size="sm" variant="primary" onClick={() => handleSave(true)}>Yes</Button>
-            <Button size="sm" variant="secondary" onClick={() => handleSave(false)}>No</Button>
-          </div>
-        </div>
-      )}
+      {showStickySave && stickyPosition === 'top' && renderStickySave('top')}
+      {showStickySave && stickyPosition === 'bottom' && renderStickySave('bottom')}
 
       <Container
         fluid="lg"
@@ -314,6 +309,11 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
                         </span>
                       )}
                     </div>
+                    <CustomButton
+                      variant="danger"
+                      onClick={updateI}
+                      label='My costum botton'
+                    />
                   </Stack>
                 </Card.Body>
               </Card>
