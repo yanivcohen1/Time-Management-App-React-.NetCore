@@ -250,7 +250,7 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
 
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
                       <Button variant="outline-primary" onClick={() => setShowStickySave(true)}>
-                        Show Save Sticky Message
+                        Show Sticky Message
                       </Button>
                       <Dropdown>
                         <Dropdown.Toggle variant="outline-secondary" id="sticky-position-dropdown">
