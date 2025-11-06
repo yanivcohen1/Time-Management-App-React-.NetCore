@@ -8,7 +8,7 @@
             "name": "Launch Chrome against localhost",
             "type": "chrome",
             "request": "launch",// first you need "yarn start" in cmd
-            "url": "http://localhost:3000", 
+            "url": "http://localhost:3001", 
             "sourceMaps": true,
             "webRoot": "${workspaceFolder}/src"
         },
