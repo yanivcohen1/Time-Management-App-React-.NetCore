@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import axios, { AxiosResponse, InternalAxiosRequestConfig, AxiosRequestHeaders } from 'axios';
+import axios from 'axios';
+import type { AxiosResponse, InternalAxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 import { getlocalStorage, savelocalStorage } from './utils/storage';
 import LoadingBar from 'react-top-loading-bar';
 import yaml from 'js-yaml';
@@ -18,6 +19,13 @@ import LoginPage from './pages/LoginPage';
 import Unauthorized from './pages/Unauthorized';
 import Logout from './pages/Logout';
 import RegistrationPage from './pages/RegistrationPage';
+
+interface Config {
+  port: number;
+  backend: {
+    url: string;
+  };
+}
 import Collapse from 'react-bootstrap/Collapse';
 import Container from 'react-bootstrap/Container';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -127,7 +135,7 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
     fetch('/config.yaml')
       .then(response => response.text())
       .then(yamlText => {
-        const config = yaml.load(yamlText) as any;
+        const config = yaml.load(yamlText) as Config;
         if (config.backend && config.backend.url) {
           axios.defaults.baseURL = config.backend.url;
         } else {

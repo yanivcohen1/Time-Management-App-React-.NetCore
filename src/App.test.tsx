@@ -1,5 +1,5 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { vi } from 'vitest';
 import Home from './pages/Home/Home';
 import { MemoryRouter } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
@@ -7,15 +7,18 @@ import { AuthProvider } from './auth/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 
 // Mock axios to avoid external calls
-jest.mock('axios');
+vi.mock('axios');
 
 // Mock react-router-dom hooks and components for testing without real Router context
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => () => {},
-  useLocation: () => ({ pathname: '/', search: '', hash: '', state: null, key: 'test' }),
-  Outlet: () => null,
-}));
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: () => () => {},
+    useLocation: () => ({ pathname: '/', search: '', hash: '', state: null, key: 'test' }),
+    Outlet: () => null,
+  };
+});
 
 test('renders Home Set AppContext button', () => {
   render(

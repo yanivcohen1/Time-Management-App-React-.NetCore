@@ -1,4 +1,5 @@
-import React, { useState, useEffect, ChangeEvent, useMemo, useRef, createRef } from 'react';
+import { useState, useEffect, useMemo, useRef, createRef } from 'react';
+import type { ChangeEvent } from 'react';
 import { getlocalStorage, savelocalStorage } from "../../../utils/storage"; // for data localstorage
 import { useAppContext } from "../../../context/AppContext"; // for events updates
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -134,7 +135,7 @@ const TodoList: React.FC = () => {
   const completeCount = todos.filter(t => t.completed).length;
 
   // Manage refs for each list item to avoid findDOMNode
-  const nodeRefs = useRef<Record<string, React.RefObject<any>>>({});
+  const nodeRefs = useRef<Record<string, React.RefObject<HTMLElement>>>({});
 
   return (
     <Container fluid="md" className="py-4">
@@ -233,15 +234,19 @@ const TodoList: React.FC = () => {
                     >
                       <TransitionGroup component={null}>
                     {filtered.map(todo => {
-                      let ref = nodeRefs.current[todo.id];
-                      if (!ref) {
-                        ref = createRef<HTMLLIElement>();
+                      let ref: React.RefObject<HTMLElement>;
+                      if (nodeRefs.current[todo.id]) {
+                        ref = nodeRefs.current[todo.id];
+                      } else {
+                        // @ts-expect-error RefObject type mismatch
+                        ref = createRef<HTMLElement>();
                         nodeRefs.current[todo.id] = ref;
                       }
 
                       return (
                         <CSSTransition key={todo.id} nodeRef={ref} timeout={500} classNames="slide">
                           <ListGroup.Item
+                            // @ts-expect-error Ref type mismatch for ListGroup.Item
                             ref={ref}
                             className={`d-flex align-items-center py-3 ${isDarkTheme ? 'bg-dark text-white border-secondary' : ''}`}
                           >

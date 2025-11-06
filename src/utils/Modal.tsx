@@ -1,4 +1,5 @@
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
+import type { PropsWithChildren } from 'react';
 import { useTheme } from '../hooks/useTheme';
 
 // Define the interface for your specific props

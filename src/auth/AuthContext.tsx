@@ -1,17 +1,16 @@
 // auth/AuthContext.tsx
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState } from 'react';
+import type { ReactNode } from 'react';
 import { savelocalStorage, getlocalStorage, removelocaStorage } from '../utils/storage';
 import axios from 'axios';
 
 type UserRole = 'admin' | 'user' | 'guest';
 
-namespace Auth {
-    export type Data = {
-        isAuthenticated: boolean;
-        role: UserRole;
-    };
-    export const KEY = 'auth';
-}
+type AuthData = {
+    isAuthenticated: boolean;
+    role: UserRole;
+};
+const AUTH_KEY = 'auth';
 
 export const JWT_KEY = 'jwt';
 
@@ -25,6 +24,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 // Custom hook to use context
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context) throw new Error('useAuth must be used within AuthProvider');
@@ -33,11 +33,11 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-        const stored = getlocalStorage<Auth.Data>(Auth.KEY);
+        const stored = getlocalStorage<AuthData>(AUTH_KEY);
         return stored ? stored.isAuthenticated : false;
     });
     const [role, setRole] = useState<UserRole>(() => {
-        const stored = getlocalStorage<Auth.Data>(Auth.KEY);
+        const stored = getlocalStorage<AuthData>(AUTH_KEY);
         return stored ? stored.role : 'guest';
     });
 
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const userRole: UserRole = role.toLowerCase() as UserRole;
             setIsAuthenticated(true);
             setRole(userRole);
-            savelocalStorage(Auth.KEY, { isAuthenticated: true, role: userRole } as Auth.Data);
+            savelocalStorage(AUTH_KEY, { isAuthenticated: true, role: userRole } as AuthData);
         } catch (error) {
             console.error('Login failed:', error);
             throw error;
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const logout = () => {
         setIsAuthenticated(false);
         setRole('guest');
-        savelocalStorage(Auth.KEY, { isAuthenticated: false, role: 'guest' } as Auth.Data);
+        savelocalStorage(AUTH_KEY, { isAuthenticated: false, role: 'guest' } as AuthData);
         removelocaStorage(JWT_KEY);
     };
 

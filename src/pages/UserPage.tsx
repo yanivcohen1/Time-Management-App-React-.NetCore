@@ -1,13 +1,13 @@
 // pages/UserPage.tsx
-import React, { useState, useEffect, ChangeEvent } from 'react';
-import { getGlobal, setGlobal } from "../utils/storage"; // for data storage
+import { useState } from 'react';
+import { getGlobal } from "../utils/storage"; // for data storage
 import { useAppContext } from "../context/AppContext"; // for events updates
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 
 const UserPage: React.FC = () => {
-    const { user, setUser } = useAppContext();
-    const [global, setGlobalstate] = useState<string>(getGlobal);
+    const { user } = useAppContext();
+    const [global] = useState<string>(getGlobal);
     return (
         <Container className="p-4 text-center">
             <Card>

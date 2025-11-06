@@ -23,7 +23,8 @@ import { faHome, faUser, faList } from '@fortawesome/free-solid-svg-icons';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import CustomButton from '../../components/CustomButton';
-import CustomSelect, { Option } from '../../components/CustomSelect';
+import CustomSelect from '../../components/CustomSelect';
+import type { Option } from '../../components/CustomSelect';
 
 interface HomeProps {
   onToggleCookieBanner: () => void;

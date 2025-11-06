@@ -1,7 +1,7 @@
 // src/context/AppContext.tsx
 import React, { createContext, useContext, useState } from "react";
 
-type SharedState<D = any> = {
+type SharedState<D = unknown> = {
     user: string | null;
     setUser: (user: string | null) => void;
     data: D;
@@ -14,7 +14,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
     const [user, setUser] = useState<string | null>(null);
-    const [data, setData] = useState<any>(null);
+    const [data, setData] = useState<unknown>(null);
 
     return (
         <AppContext.Provider value={{ user, setUser ,data, setData}}>
@@ -24,10 +24,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 };
 
 // Custom hook to use context
-export const useAppContext = <D = any>(): SharedState<D> => {
+// eslint-disable-next-line react-refresh/only-export-components
+export const useAppContext = <D = unknown>(): SharedState<D> => {
     const context = useContext(AppContext);
     if (!context) {
         throw new Error("useAppContext must be used within an AppProvider");
     }
-    return context;
+    return context as SharedState<D>;
 };

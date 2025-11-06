@@ -1,6 +1,8 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState } from 'react';
+import type { ReactNode } from 'react';
 import Toast from 'react-bootstrap/Toast';
-import ToastContainer, { ToastPosition } from 'react-bootstrap/ToastContainer';
+import ToastContainer from 'react-bootstrap/ToastContainer';
+import type { ToastPosition } from 'react-bootstrap/ToastContainer';
 
 type ToastVariant = 'dark' | 'success' | 'danger' | 'secondary';
 
@@ -19,6 +21,7 @@ interface ToastContextType {
 
 const ToastContext = createContext<ToastContextType | null>(null);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useToast = () => {
     const context = useContext(ToastContext);
     if (!context) throw new Error('useToast must be used within ToastProvider');

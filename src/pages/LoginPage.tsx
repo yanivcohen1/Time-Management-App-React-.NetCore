@@ -30,7 +30,7 @@ const LoginPage: React.FC = () => {
             await login(username, password);
             const from = (location.state as { from?: string } | undefined)?.from || '/';
             navigate(from, { replace: true });
-        } catch (err) {
+        } catch {
             setError('Login failed. Please check your credentials.');
         } finally {
             setLoading(false);

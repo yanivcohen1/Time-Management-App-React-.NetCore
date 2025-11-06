@@ -17,6 +17,7 @@ export const AboutSwitchProvider: React.FC<{ children: React.ReactNode }> = ({ c
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAboutSwitch = (): AboutSwitchContextValue => {
   const context = useContext(AboutSwitchContext);
   if (!context) {
