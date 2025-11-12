@@ -12730,6 +12730,7 @@ snapshots:
       '@fortawesome/fontawesome-svg-core': 7.1.0
       '@fortawesome/free-solid-svg-icons': 7.1.0
       '@fortawesome/react-fontawesome': 3.1.0(@fortawesome/fontawesome-svg-core@7.1.0)(react@19.2.0)
+      '@primeuix/themes': 1.2.5
       '@testing-library/dom': 10.4.1
       '@testing-library/jest-dom': 6.9.1
       '@testing-library/react': 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
