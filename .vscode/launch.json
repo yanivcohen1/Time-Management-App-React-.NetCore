@@ -5,9 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Chrome against localhost",
+            "name": "Launch Chrome localhost:3001 with dev task",
             "type": "chrome",
-            "request": "launch",// first you need "pnpm dev" in cmd
+            "request": "launch",
+            "preLaunchTask": "dev",
+            "url": "http://localhost:3001", 
+            "sourceMaps": true,
+            "webRoot": "${workspaceFolder}/frontend/src"
+        },
+        {
+            "name": "Launch Chrome localhost:3001 without dev task",
+            "type": "chrome",
+            "request": "launch",
+            // "preLaunchTask": "dev",
             "url": "http://localhost:3001", 
             "sourceMaps": true,
             "webRoot": "${workspaceFolder}/frontend/src"
