@@ -7,5 +7,6 @@
         "test_*.py"
     ],
     "python.testing.pytestEnabled": true,
-    "python.testing.unittestEnabled": false
+    "python.testing.unittestEnabled": false,
+    "python.defaultInterpreterPath": "${workspaceFolder}/backend_py_service/venv/Scripts/python.exe"
 }
