@@ -2,10 +2,14 @@
     "python.testing.unittestArgs": [
         "-v",
         "-s",
-        "./tests",
+        "${workspaceFolder}/backend_python_service/tests",
         "-p",
         "test_*.py"
     ],
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.cwd": "${workspaceFolder}/backend_python_service",
     "python.testing.pytestEnabled": true,
     "python.testing.unittestEnabled": false,
     "python.defaultInterpreterPath": "${workspaceFolder}/backend_python_service/venv/Scripts/python.exe"
