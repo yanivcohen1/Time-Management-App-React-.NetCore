@@ -1,12 +1,12 @@
 # FastAPI Authentication with MongoDB
 
-A role-based authentication API built with FastAPI, using JWT tokens and MongoDB for user storage.
+A role-based authentication API built with FastAPI, using JWT tokens, and MongoDB for user storage via the Beanie ODM (Motor + PyMongo).
 
 ## Features
 
 - JWT-based authentication
 - Role-based access control (admin/user roles)
-- MongoDB user storage
+- MongoDB user storage using Beanie documents
 - CORS support
 - Configurable via YAML
 
@@ -15,7 +15,11 @@ A role-based authentication API built with FastAPI, using JWT tokens and MongoDB
 ### Prerequisites
 
 - Python 3.12+
-- MongoDB running on localhost:27017
+- MongoDB 3.6+ running on `localhost:27017`
+
+> **MongoDB 3.6 compatibility**
+>
+> Dependencies are pinned to `beanie==1.26.0`, `motor==2.5.1`, and `pymongo==3.13.0` so the service continues to work with clusters that have not yet upgraded beyond MongoDB 3.6.
 
 ### Installation
 
@@ -40,6 +44,8 @@ A role-based authentication API built with FastAPI, using JWT tokens and MongoDB
    ```bash
    python seed.py
    ```
+
+   The seed script drops the `users` collection before re-inserting the default admin/user accounts, so it is safe to re-run whenever you need a clean slate.
 
 ## Configuration
 
@@ -81,6 +87,8 @@ After seeding, the following users are available:
 - **Admin**: `admin@example.com` / `Admin123!`
 - **User**: `user@example.com` / `User123!`
 
+Passwords are hashed with `passlib.pbkdf2_sha256`, so you can safely change the defaults inside `seed.py` if needed.
+
 ## Testing
 
 Run tests with pytest:
@@ -90,19 +98,34 @@ pytest
 
 Or use VS Code's testing tab.
 
+> **Windows event loop note**
+>
+> The service programmatically switches to `asyncio.WindowsSelectorEventLoopPolicy()` so Motor 2.x can run reliably on Windows. No manual action is required, but this is why the tests now pass without the "event loop is closed" error.
+
 ## Project Structure
 
 ```
-fast_api_auth/
+backend_python_service/
 ├── app/
 │   ├── __init__.py
-│   ├── auth.py       # Authentication logic and app setup
+│   ├── auth.py       # FastAPI app + Beanie models + JWT logic
 │   └── main.py       # Server entry point
 ├── tests/
 │   ├── conftest.py
-│   └── test_auth.py  # API tests
+│   └── test_auth.py  # API tests (pytest/TestClient)
 ├── config.yaml       # Configuration file
-├── seed.py           # Database seeding script
-├── requirements.txt  # Python dependencies
+├── seed.py           # Database seeding script (Beanie-based)
+├── requirements.txt  # Python dependencies pinned for MongoDB 3.6
 └── readme.md         # This file
+```
+
+## Helpful Commands
+
+Common tasks from the repository root (after creating/activating the virtual environment):
+
+```powershell
+cd backend_python_service
+python seed.py
+python -m pytest
+python app/main.py
 ```
