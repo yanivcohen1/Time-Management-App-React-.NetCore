@@ -9,6 +9,7 @@ A role-based authentication API built with FastAPI, using JWT tokens, and MongoD
 - MongoDB user storage using Beanie documents
 - CORS support
 - Configurable via YAML
+- API Documentation with Swagger
 
 ## Setup
 
