@@ -2,6 +2,7 @@ Jwt:
   Key: "your-super-secret-key-here-change-in-production"
   Issuer: "AuthApi"
   Audience: "AuthApiUsers"
+  ExpirationMinutes: 60
 
 Database:
   Provider: "MongoDB"  # Options: "MySQL" or "MongoDB"
