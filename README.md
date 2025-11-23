@@ -31,6 +31,7 @@ The solution consists of three main components:
 *   **Authentication**: JWT (JSON Web Tokens)
 *   **Testing**: xUnit + WebApplicationFactory (Integration Tests)
 *   **Configuration**: YAML-based settings
+*   **Swagger**: API Documentation with Swagger
 
 ### Backend - Python (`/backend_python_service`)
 *   **Framework**: FastAPI
@@ -38,6 +39,7 @@ The solution consists of three main components:
 *   **Authentication**: JWT
 *   Configuration: YAML-based settings
 *   **Testing**: Pytest + TestClient
+*   **Swagger**: API Documentation with Swagger
 
 ## 📂 Project Structure
 
