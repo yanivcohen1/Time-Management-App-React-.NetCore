@@ -182,7 +182,7 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
   const handleGetReports = async () => {
     try {
       const response = await axios.get('/api/admin/reports');
-      showToast(`Reports: ${JSON.stringify(response.data)}`, 'success', 'top-end');
+      showToast(`Reports: ${JSON.stringify(response.data)}`, 'success', 'top-center');
     } catch (error) {
       console.error('Error fetching reports:', error);
       //showToast('Failed to fetch reports', 'danger', 'top-end');
