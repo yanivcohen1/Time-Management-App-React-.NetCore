@@ -76,6 +76,11 @@ python app/main.py --env prod   # Production
 
 The API will be available at `http://localhost:5000` (dev) or the configured production URL.
 
+### API Documentation
+
+- Swagger UI: http://127.0.0.1:5000/docs#/
+- ReDoc (FastAPI): http://127.0.0.1:5000/redoc
+
 ## API Endpoints
 
 ### Public Endpoints
