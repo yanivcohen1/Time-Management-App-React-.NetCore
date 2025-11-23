@@ -150,9 +150,9 @@ const TodoList: React.FC = () => {
   const nodeRefs = useRef<Record<string, React.RefObject<HTMLElement>>>({});
 
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
       <Grid container justifyContent="center">
-        <Grid size={{ xs: 12, md: 10, lg: 8, xl: 6 }}>
+        <Grid size={{ xs: 12, md: 12, lg: 12, xl: 12 }}>
           <Card sx={{ boxShadow: 1 }}>
             <CardHeader
               title={
