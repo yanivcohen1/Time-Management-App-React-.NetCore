@@ -1,4 +1,4 @@
-# React + TypeScript + Vite App
+# React + TypeScript + Vite + Playwright
 
 A modern React application built with TypeScript and Vite, featuring a todo list, user authentication, role-based access control, and nested routing. The app uses Material UI for styling, PrimeReact components, and Axios for API calls.
 
