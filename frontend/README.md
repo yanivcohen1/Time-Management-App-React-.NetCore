@@ -9,7 +9,7 @@ A modern React application built with TypeScript and Vite, featuring a todo list
 - **Nested Routing**: Dynamic routes with React Router v6
 - **Theming**: Light/dark mode support
 - **Responsive UI**: Material UI and PrimeReact components
-- **Data Persistence**: Local storage for todos and user data
+- **Data Persistence**: Local storage for user data cache memory
 - **Loading Indicators**: Global loading bar for API requests
 - **Animations**: Smooth transitions with CSS animations
 - **Configurable Backend**: Backend URL loaded from YAML configuration file
