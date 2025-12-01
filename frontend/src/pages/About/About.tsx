@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link as RouterLink, useParams, Outlet } from "react-router-dom";
 import { Container, Card, CardContent, Stack, FormControlLabel, Switch, Typography, Link } from '@mui/material';
 import { AboutSwitchProvider, useAboutSwitch } from "./AboutSwitchContext";
@@ -6,6 +6,10 @@ import { AboutSwitchProvider, useAboutSwitch } from "./AboutSwitchContext";
 const AboutContent: React.FC = () => {
     const { aboutId } = useParams<{ aboutId: string }>();
     const { isOn, setIsOn } = useAboutSwitch();
+
+    useEffect(() => {
+        setIsOn(false);
+    }, [aboutId, setIsOn]);
 
     const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
         setIsOn(event.target.checked);
