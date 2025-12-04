@@ -96,7 +96,7 @@ You can test endpoints directly from the UI by clicking "Try it out"
 
 OpenAPI Specification
 
-The OpenAPI JSON specification is available at: http://localhost:5000/openapi/v1.json or https://localhost:5001/openapi/v1.json
+The OpenAPI JSON specification is available at: http://localhost:5000/openapi.json or https://localhost:5001/openapi.json
 
 ## API Endpoints
 
